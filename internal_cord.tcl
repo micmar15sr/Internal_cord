@@ -143,8 +143,9 @@ trace vdelete vmd_frame([molinfo top]) w print_angle
 
 
 
+###example to print a bond
+###start_bond "protein and name CA" "resid 580 to 590 and name CA"
 
-start_bond "protein and name CA" "resid 580 to 590 and name CA"
-start_bond "protein and name CA" "resid 596 to 598 and name CA" "resid 604 to 606 and name CA" 
-resid 596:598
+### example to print an Angle
+###start_angle "protein and name CA" "resid 596 to 598 and name CA" "resid 604 to 606 and name CA" 
 
