@@ -83,9 +83,10 @@ proc print_angle {args} {
 	draw sphere $com_2 radius 1.5 resolution 20
 	set com_3 [measure center [atomselect top $selection3 ] weight mass]
 	draw sphere $com_3 radius 1.5 resolution 20
-	draw line $com_1 $com_2 width 5
+	draw line $com_1 $com_2  width 5
 	draw line $com_2 $com_3 width 5
-	draw triangle $com_1 $com_2 $com_3 #draw a triangle between coordinates 
+	#draw a triangle between coordinates
+	draw triangle [ vecadd $com_2 [vecscale [ vecsub $com_1 $com_2] 0.8 ]] $com_2 [ vecadd $com_2 [vecscale [ vecsub $com_3 $com_2] 0.8 ] ]
 	set vec1 [ vecscale [vecsub $com_1 $com_2]  [expr 1/[vecdist $com_1 $com_2] ] ]
 	set vec2 [ vecscale [vecsub $com_3 $com_2]  [expr 1/[vecdist $com_3 $com_2] ] ]
 	set angle_theta [expr 180*[expr acos( [vecdot $vec1 $vec2] )]/3.14 ]
