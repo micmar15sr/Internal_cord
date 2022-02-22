@@ -95,6 +95,38 @@ proc print_angle {args} {
 }
 
 
+###Print Dihedral
+
+proc print_dihe {args} {
+	draw delete all
+	global selection1
+	global selection2
+	global selection3
+	global selection4
+	bcolor
+	set com_1 [measure center [atomselect top $selection1 ] weight mass]
+	draw sphere $com_1  radius 1.5  resolution 20
+	set com_2 [measure center [atomselect top $selection2 ] weight mass]
+	draw sphere $com_2 radius 1.5 resolution 20
+	set com_3 [measure center [atomselect top $selection3 ] weight mass]
+	draw sphere $com_3 radius 1.5 resolution 20
+	set com_4 [measure center [atomselect top $selection4 ] weight mass]
+	draw sphere $com_4 radius 1.5 resolution 20
+	draw line $com_1 $com_2  width 5
+	draw line $com_2 $com_3 width 5
+	draw line $com_3 $com_4 width 5
+
+	#draw a triangle between coordinates
+	set angle_vis 0.5
+	draw triangle [ vecadd $com_3 [vecscale [ vecsub $com_2 $com_4] $angle_vis ]] $com_3 [ vecadd $com_3 [vecscale [ vecsub $com_4 $com_3] $angle_vis ] ]
+
+	#Calcolo valore diedrale da aggiornare
+	#set vec1 [ vecscale [vecsub $com_1 $com_2]  [expr 1/[vecdist $com_1 $com_2] ] ]
+	#set vec2 [ vecscale [vecsub $com_3 $com_2]  [expr 1/[vecdist $com_3 $com_2] ] ]
+	#set angle_theta [expr 180*[expr acos( [vecdot $vec1 $vec2] )]/3.14 ]
+	#text {x y z} ``text string'' [size s] [thickness t]
+	#draw text $com_1 [format "%.2f" $angle_theta] size 1
+}
 
 
 
@@ -129,6 +161,24 @@ print_angle
 trace variable vmd_frame([molinfo top]) w print_angle
 }
 
+
+
+
+proc start_dihe { sele1 sele2 sele3 } {
+global selection1
+global selection2
+global selection3
+global selection4
+global vmd_frame
+set selection1 $sele1
+set selection2 $sele2
+set selection3 $sele3
+set selection3 $sele4
+# set a trace to detect when an animation frame changes
+print_dihe
+trace variable vmd_frame([molinfo top]) w print_angle
+}
+
 proc stop_bond {} {
 draw delete all
 global vmd_frame
@@ -140,6 +190,13 @@ proc stop_angle {} {
 draw delete all
 global vmd_frame
 trace vdelete vmd_frame([molinfo top]) w print_angle
+}
+
+
+proc stop_dihe {} {
+draw delete all
+global vmd_frame
+trace vdelete vmd_frame([molinfo top]) w print_dihe
 }
 
 
