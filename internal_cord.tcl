@@ -117,8 +117,8 @@ proc print_dihe {args} {
 	draw line $com_3 $com_4 width 5
 
 	#draw a triangle between coordinates
-	set angle_vis 0.5
-	draw triangle [ vecadd $com_3 [vecscale [ vecsub $com_2 $com_4] $angle_vis ]] $com_3 [ vecadd $com_3 [vecscale [ vecsub $com_4 $com_3] $angle_vis ] ]
+	#set angle_vis 0.5
+	#draw triangle [ vecadd $com_3 [vecscale [ vecsub $com_2 $com_4] $angle_vis ]] $com_3 [ vecadd $com_3 [vecscale [ vecsub $com_4 $com_3] $angle_vis ] ]
 
 	#Calcolo valore diedrale da aggiornare
 	#set vec1 [ vecscale [vecsub $com_1 $com_2]  [expr 1/[vecdist $com_1 $com_2] ] ]
@@ -164,7 +164,7 @@ trace variable vmd_frame([molinfo top]) w print_angle
 
 
 
-proc start_dihe { sele1 sele2 sele3 } {
+proc start_dihe { sele1 sele2 sele3 sele4 } {
 global sele_dihe1
 global sele_dihe2
 global sele_dihe3
@@ -176,7 +176,7 @@ set sele_dihe3 $sele3
 set sele_dihe4 $sele4
 # set a trace to detect when an animation frame changes
 print_dihe
-trace variable vmd_frame([molinfo top]) w print_angle
+trace variable vmd_frame([molinfo top]) w print_dihe
 }
 
 proc stop_bond {} {
